@@ -1,11 +1,13 @@
-#header {
-    position: absolute;
+#sidebar {
+    position: relative;
     width: 220px;
-  }
-  #header .pro-sidebar {
+}
+
+#sidebar .pro-sidebar {
     height: 100vh;
-  }
-  #header .closemenu {
+}
+
+#sidebar .closemenu {
     color: #000;
     position: absolute;
     right: 0;
@@ -16,53 +18,64 @@
     font-size: 22px;
     top: 55px;
     cursor: pointer;
-  }
-  #header .pro-sidebar {
+}
+
+#sidebar .pro-sidebar {
     width: 100%;
     min-width: 100%;
-  }
-  #header .pro-sidebar.collapsed {
+}
+
+#sidebar .pro-sidebar.collapsed {
     width: 80px;
     min-width: 80px;
-  }
-  #header .pro-sidebar-inner {
+}
+
+#sidebar .pro-sidebar-inner {
     background-color: white;
     box-shadow: 0.5px 0.866px 2px 0px rgba(0, 0, 0, 0.15);
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout {
     overflow-y: hidden;
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout .logotext p {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout .logotext p {
     font-size: 20px;
     padding: 0 20px;
     color: #000;
     font-weight: bold;
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout ul {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout ul {
     padding: 0 5px;
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item {
     color: #000;
     margin: 10px 0px;
     font-weight: bold;
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper {
     background-color: #cdfbf3;
     color: #000;
     border-radius: 3px;
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper .pro-item-content {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout ul .pro-inner-item .pro-icon-wrapper .pro-item-content {
     color: #000;
-  }
-  #header .pro-sidebar-inner .pro-sidebar-layout .active {
+}
+
+#sidebar .pro-sidebar-inner .pro-sidebar-layout .active {
     background-image: linear-gradient(0deg, #00edfe 0%, #72ffec 100%);
-  }
-  #header .logo {
+}
+
+#sidebar .logo {
     padding: 20px;
-  }
-  
-  @media only screen and (max-width: 720px) {
+}
+
+@media only screen and (max-width: 720px) {
     html {
-      overflow: hidden;
+        overflow: hidden;
     }
-  }
+}

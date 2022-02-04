@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 //import useState hook to create menu collapse state
 import React, { useState } from "react";
 
@@ -20,6 +21,7 @@ import {
   FiArrowRightCircle,
 } from "react-icons/fi";
 import { GoGraph } from "react-icons/go";
+import { AiOutlineForm } from "react-icons/ai"
 // import { BiCog } from "react-icons/bi";
 
 //import sidebar css from react-pro-sidebar module and our custom css
@@ -44,7 +46,7 @@ const Header = () => {
 
   return (
     <>
-      <div id="header">
+      <div id="sidebar">
         {/* collapsed props to change menu size using menucollapse state */}
         <ProSidebar collapsed={menuCollapse}>
           <SidebarHeader>
@@ -62,9 +64,10 @@ const Header = () => {
             {/* Add the content of the sidebar ex: menu details */}
             <Menu iconShape="square">
               <MenuItem active={true} icon={<FiHome />}>
-                Home
+                <Link to='/' > Home </Link>
               </MenuItem>
-              <MenuItem icon={<FaList />}>Subscriptions</MenuItem>
+              <MenuItem icon={<AiOutlineForm />}>Add New</MenuItem>
+              <MenuItem icon={<FaList />}><Link to='/subscriptions'>Subscriptions</Link></MenuItem>
               <MenuItem icon={<GoGraph />}>Reports</MenuItem>
               {/* <MenuItem icon={<BiCog />}>Settings</MenuItem> */}
             </Menu>

@@ -1,10 +1,14 @@
 .App {
   text-align: center;
+  display: flex;
 }
 
 .App-logo {
   height: 40vmin;
   pointer-events: none;
+}
+.main-content {
+  width: 100%;
 }
 
 @media (prefers-reduced-motion: no-preference) {
