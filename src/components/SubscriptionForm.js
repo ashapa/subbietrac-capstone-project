@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
@@ -6,25 +6,34 @@ import { db } from "../firebase/config"
 import { collection, getDocs } from "firebase/firestore";
 
 
-function AddNew() {
-  const [name, setName] = useState("");
-  const [price, setPrice] = useState(0);
-  const [frequency, setFrequency] = useState("");
-  const [date, setDate] = useState("");
+function SubscriptionForm(props) {
+  const [name, setName] = useState(props.editedSubscription.name);
+  const [price, setPrice] = useState(props.editedSubscription.price);
+  const [cycle, setCycle] = useState("weekly");
+  const [date, setDate] = useState(props.editedSubscription.date);
   const [validated, setValidated] = useState(false);
-  const [show, setShow] = useState(false);
+
+  // useEffect takes in 2 parameters: a function and a dependencies array.
+  // The dependencies array '[]' contains values/items I want to watch for(i.e to see if there're any changes to these item/values).
+  // And the function in this useEffect is dependent on whatever is in the array to run/execute)
+  // This SubscriptionForm renders every time the modal is open(i.e when props.show is true). Therefore all my state variables will render as blank 
+  // unless I use this useEffect to update my state variables
+  // So when 'props.show' changes (i.e changes to true for ex.), the function updates all my declared state variables with the editedSubscription values
+  useEffect(() => {
+    setName(props.editedSubscription.name);
+    setPrice(props.editedSubscription.price);
+    setCycle(props.editedSubscription.cycle);
+    setDate(props.editedSubscription.date);
+  }, [props.show])
 
   const handleClear = () => {
     setName("");
     setPrice(0);
-    setFrequency("weekly");
+    setCycle("weekly");
     setDate("");
     setValidated(false);
   };
 
-  const handleClose = () => {
-    setShow(false);
-  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,24 +43,27 @@ function AddNew() {
     if (form.checkValidity() === false) {
       setValidated(true);
     } else {
+      props.addSubscription({ name, price: Number(price), cycle, date, })
       setName("");
       setPrice(0);
-      setFrequency("weekly");
+      setCycle("weekly");
       setDate("");
       setValidated(false);
-      handleClose();
+
+      props.handleClose();
     }
 
-    const querySnapshot = getDocs(collection(db, "subscriptions")).then(doc => {
-      querySnapshot.forEach((doc) => {
-        console.log(doc.data());
-      });
-    })
+
   };
+  // const querySnapshot = getDocs(collection(db, "subscriptions")).then(doc => {
+  //   querySnapshot.forEach((doc) => {
+  //     console.log(doc.data());
+  //   });
+  // })
+
   return (
     <div>
-      <button onClick={() => setShow(true)}>Add New</button>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={props.show} onHide={props.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Add a new subscription</Modal.Title>
         </Modal.Header>
@@ -92,9 +104,9 @@ function AddNew() {
               <Form.Label>Billing cycle</Form.Label>
               <Form.Control
                 as="select"
-                value={frequency}
-                onChange={() =>
-                  setFrequency()
+                value={cycle}
+                onChange={(e) =>
+                  setCycle(e.target.value)
                 }
               >
                 <option value="weekly">Weekly</option>
@@ -131,4 +143,5 @@ function AddNew() {
   );
 }
 
-export default AddNew;
+export default SubscriptionForm;
+

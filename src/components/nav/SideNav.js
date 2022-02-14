@@ -21,7 +21,7 @@ import {
   FiArrowRightCircle,
 } from "react-icons/fi";
 import { GoGraph } from "react-icons/go";
-import { AiOutlineForm } from "react-icons/ai"
+// import { AiOutlineForm } from "react-icons/ai"
 // import { BiCog } from "react-icons/bi";
 
 //import sidebar css from react-pro-sidebar module and our custom css
@@ -53,7 +53,7 @@ const Header = () => {
             {/* Add a header for the sidebar ex: logo */}
             <div className="logotext">
               {/* small and big change using menucollapse state */}
-              <p>{menuCollapse ? "Logo" : "My Logo"}</p>
+              <p>{menuCollapse ? "ST" : "SubbieTrac"}</p>
             </div>
             <div className="closemenu" onClick={menuIconClick}>
               {/* changing menu collapse icon on click */}
@@ -63,13 +63,12 @@ const Header = () => {
           <SidebarContent>
             {/* Add the content of the sidebar ex: menu details */}
             <Menu iconShape="square">
-              <MenuItem active={true} icon={<FiHome />}>
+              <MenuItem active={window.location.pathname === "/"} icon={<FiHome />}>
                 <Link to='/' > Home </Link>
               </MenuItem>
-              <MenuItem icon={<AiOutlineForm />}>Add New</MenuItem>
-              <MenuItem icon={<FaList />}><Link to='/subscriptions'>Subscriptions</Link></MenuItem>
+              {/* <MenuItem icon={<AiOutlineForm />}><Link to='/add-new'>Add New</Link></MenuItem> */}
+              <MenuItem active={window.location.pathname === "/subscriptions"} icon={<FaList />}><Link to='/subscriptions'>Subscriptions</Link></MenuItem>
               <MenuItem icon={<GoGraph />}>Reports</MenuItem>
-              {/* <MenuItem icon={<BiCog />}>Settings</MenuItem> */}
             </Menu>
           </SidebarContent>
           <SidebarFooter>
