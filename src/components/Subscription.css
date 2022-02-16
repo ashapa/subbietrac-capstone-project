@@ -53,28 +53,17 @@
 
 .sub__deleteNedit button {
   margin-right: 20px;
-  background-color: transparent;
-  border: none;
+  /* background-color: transparent; */
   font-size: 16px;
-  color: hsl(210, 10%, 55%);
+  /* color: #17a2b8; */
+  /* border-color: #17a2b8; */
+  border: none;
+  background-color: #cdfbf3;
+  color: #000;
+  border-radius: 3px;
 }
 
-.sub__editButton:hover {
-  color: hsl(210, 20%, 25%);
+.button {
+  float: right;
 }
 
-.sub__editButton:active {
-  color: hsl(210, 10%, 55%);
-}
-
-.sub__deleteNedit .sub__deleteButton {
-  color: hsl(0, 80%, 80%);
-}
-
-.sub__deleteButton:hover {
-  color: hsl(0, 70%, 70%);
-}
-
-.sub__deleteButton:active {
-  color: hsl(0, 80%, 80%);
-}

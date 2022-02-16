@@ -1,31 +1,48 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import moment from "moment";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { db } from "../firebase/config"
+import { db } from "../firebase/config";
 import { collection, getDocs } from "firebase/firestore";
 
-
 function SubscriptionForm(props) {
-  const [name, setName] = useState(props.editedSubscription.name);
-  const [price, setPrice] = useState(props.editedSubscription.price);
-  const [cycle, setCycle] = useState("weekly");
-  const [date, setDate] = useState(props.editedSubscription.date);
+  const { subscription } = props;
+
+  const startDate = subscription
+    ? moment.unix(subscription.date.seconds).utc().format("YYYY-MM-DD")
+    : "";
+  const [name, setName] = useState(subscription.name);
+  const [price, setPrice] = useState(subscription.price);
+  const [cycle, setCycle] = useState(subscription.cycle);
+  const [date, setDate] = useState(startDate);
   const [validated, setValidated] = useState(false);
 
   // useEffect takes in 2 parameters: a function and a dependencies array.
   // The dependencies array '[]' contains values/items I want to watch for(i.e to see if there're any changes to these item/values).
   // And the function in this useEffect is dependent on whatever is in the array to run/execute)
-  // This SubscriptionForm renders every time the modal is open(i.e when props.show is true). Therefore all my state variables will render as blank 
+  // This SubscriptionForm renders every time the modal is open(i.e when props.show is true). Therefore all my state variables will render as blank
   // unless I use this useEffect to update my state variables
   // So when 'props.show' changes (i.e changes to true for ex.), the function updates all my declared state variables with the editedSubscription values
   useEffect(() => {
-    setName(props.editedSubscription.name);
-    setPrice(props.editedSubscription.price);
-    setCycle(props.editedSubscription.cycle);
-    setDate(props.editedSubscription.date);
-  }, [props.show])
-
+    const startDate = subscription
+      ? moment.unix(subscription.date.seconds).utc().format("YYYY-MM-DD")
+      : "";
+    setName(subscription.name);
+    setPrice(subscription.price);
+    setCycle(subscription.cycle);
+    setDate(startDate);
+  }, [
+    props.show,
+    setName,
+    setPrice,
+    setCycle,
+    setDate,
+    subscription.name,
+    subscription.cycle,
+    subscription.price,
+    subscription.date,
+  ]);
   const handleClear = () => {
     setName("");
     setPrice(0);
@@ -34,16 +51,20 @@ function SubscriptionForm(props) {
     setValidated(false);
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
-
 
     const form = e.currentTarget;
     if (form.checkValidity() === false) {
       setValidated(true);
     } else {
-      props.addSubscription({ name, price: Number(price), cycle, date, })
+      props.saveSubscription({
+        id: subscription.id,
+        name,
+        price: Number(price),
+        cycle,
+        date,
+      });
       setName("");
       setPrice(0);
       setCycle("weekly");
@@ -52,20 +73,13 @@ function SubscriptionForm(props) {
 
       props.handleClose();
     }
-
-
   };
-  // const querySnapshot = getDocs(collection(db, "subscriptions")).then(doc => {
-  //   querySnapshot.forEach((doc) => {
-  //     console.log(doc.data());
-  //   });
-  // })
 
   return (
     <div>
       <Modal show={props.show} onHide={props.handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Add a new subscription</Modal.Title>
+          <Modal.Title>{subscription.id ? 'Update' : 'Add'} a new subscription</Modal.Title>
         </Modal.Header>
 
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
@@ -105,9 +119,7 @@ function SubscriptionForm(props) {
               <Form.Control
                 as="select"
                 value={cycle}
-                onChange={(e) =>
-                  setCycle(e.target.value)
-                }
+                onChange={(e) => setCycle(e.target.value)}
               >
                 <option value="weekly">Weekly</option>
                 <option value="monthly">Monthly</option>
@@ -134,14 +146,13 @@ function SubscriptionForm(props) {
               Clear
             </Button>
             <Button variant="info" type="submit">
-              Add
+              {subscription.id ? 'Update' : 'Add'}
             </Button>
           </Modal.Footer>
         </Form>
       </Modal>
-    </div >
+    </div>
   );
 }
 
 export default SubscriptionForm;
-

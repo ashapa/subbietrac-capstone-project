@@ -1,7 +1,10 @@
 import React from "react";
-import Navbar from "./components/NavBar";
-import SideNav from "./components/nav/SideNav";
+import SideNav from "./components/SideNav";
+import Home from "./components/Home";
 import Login from "./components/Login";
+import Register from "./components/Register";
+import Reset from "./components/Reset";
+import Dashboard from "./components/Dashboard";
 import SubscriptionsList from "./components/SubscriptionsList";
 import { BrowserRouter as Router, Routes, Route, } from "react-router-dom";
 import "./App.css"
@@ -10,12 +13,15 @@ import "./App.css"
 function App() {
   return (
     <>
-      {/* <Navbar /> */}
       {/* <SideNav /> */}
-        <Routes>
-        <Route path="/" element={<Login />}/>
-          <Route path="/subscriptions" element={<SubscriptionsList />} />
-        </Routes>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/reset" element={<Reset />} />
+        <Route exact path="/dashboard" element={<Dashboard />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/subscriptions" element={<SubscriptionsList />} />
+      </Routes>
     </>
   );
 }

@@ -13,7 +13,7 @@ import {
 } from "react-pro-sidebar";
 
 //import icons from react icons
-import { FaList } from "react-icons/fa";
+import { FaTypo3, FaList } from "react-icons/fa";
 import {
   FiHome,
   FiLogOut,
@@ -53,7 +53,7 @@ const Header = () => {
             {/* Add a header for the sidebar ex: logo */}
             <div className="logotext">
               {/* small and big change using menucollapse state */}
-              <p>{menuCollapse ? "ST" : "SubbieTrac"}</p>
+              <p>{menuCollapse ? <FaTypo3 /> : "SubbieTrac"}</p>
             </div>
             <div className="closemenu" onClick={menuIconClick}>
               {/* changing menu collapse icon on click */}
@@ -63,12 +63,18 @@ const Header = () => {
           <SidebarContent>
             {/* Add the content of the sidebar ex: menu details */}
             <Menu iconShape="square">
-              <MenuItem active={window.location.pathname === "/"} icon={<FiHome />}>
-                <Link to='/' > Home </Link>
+              <MenuItem
+                active={window.location.pathname === "/home"}
+                icon={<FiHome />}
+              >
+                <Link to="/home"> Home </Link>
               </MenuItem>
-              {/* <MenuItem icon={<AiOutlineForm />}><Link to='/add-new'>Add New</Link></MenuItem> */}
-              <MenuItem active={window.location.pathname === "/subscriptions"} icon={<FaList />}><Link to='/subscriptions'>Subscriptions</Link></MenuItem>
-              <MenuItem icon={<GoGraph />}>Reports</MenuItem>
+              <MenuItem
+                active={window.location.pathname === "/subscriptions"}
+                icon={<FaList />}
+              >
+                <Link to="/subscriptions">Subscriptions</Link>
+              </MenuItem>
             </Menu>
           </SidebarContent>
           <SidebarFooter>
