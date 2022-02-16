@@ -3,7 +3,7 @@ import moment from 'moment'
 import SubscriptionForm from "./SubscriptionForm";
 import Subscription from "./Subscription";
 import './SubscriptionsList.css'
-// import Totals from './Totals';
+import Totals from './Totals';
 import Table from "react-bootstrap/table"
 import { auth, db } from "../firebase/config";
 import {
@@ -153,6 +153,9 @@ const SubscriptionsList = () => {
             );
           })}
 
+          <Totals 
+            subscriptions={subscriptions}
+          />
         </tbody>
       </Table>
     </div>

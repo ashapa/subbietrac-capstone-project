@@ -1,17 +1,18 @@
-.dashboard {
+/* .dashboard {
   height: 100vh;
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-}
+} */
 
 .dashboard__container {
   display: flex;
-  flex-direction: column;
-  text-align: center;
+  /* flex-direction: column; */
+  /* text-align: center; */
   background-color: #dcdcdc;
   padding: 30px;
+  justify-content:space-between;
 }
 
 .dashboard__btn {
