@@ -55,21 +55,25 @@ const SubscriptionsList = () => {
 
   const updateSubscription = async (sub) => {
     const subscriptionDoc = doc(db, "subscriptions", sub.id);
-    await updateDoc(subscriptionDoc, sub);
-    // for this successful response, let newSubscriptionsList = a copy of subscriptions array state
-    // let newSubscriptionsList = [...subscriptions];
-    // .map takes a function and maps over all the items in the newSubscriptionsList and applies the function to every item (each item is represented by the variable 's')
-    // meaning for every s in newSubscriptionsList, if s's id (i.e. each item's id) matches the passed in id on line 37, return a copy of the updatedSubscription object(which includes all it's key:values) & replace its id with passed in id, otherwise return the s object as is
-    // then update the subscriptions array state with the newSubscriptionsList (which holds all the newly mapped values)
-    console.log(sub.date.getTime() / 1000)
-    const newSubscriptionsList = subscriptions.map(s => {
-      if (s.id === sub.id) {
-        return { ...sub, date: { seconds: (sub.date.getTime() / 1000).toFixed(), nanoseconds: 0 } }
-      }
-      return s;
-    })
-    console.log(newSubscriptionsList)
-    setSubscriptions(newSubscriptionsList);
+    try {
+      await updateDoc(subscriptionDoc, sub);
+      // for this successful response, let newSubscriptionsList = a copy of subscriptions array state
+      // let newSubscriptionsList = [...subscriptions];
+      // .map takes a function and maps over all the items in the newSubscriptionsList and applies the function to every item (each item is represented by the variable 's')
+      // meaning for every s in newSubscriptionsList, if s's id (i.e. each item's id) matches the passed in id on line 37, return a copy of the updatedSubscription object(which includes all it's key:values) & replace its id with passed in id, otherwise return the s object as is
+      // then update the subscriptions array state with the newSubscriptionsList (which holds all the newly mapped values)
+      console.log(sub.date.getTime() / 1000)
+      const newSubscriptionsList = subscriptions.map(s => {
+        if (s.id === sub.id) {
+          return { ...sub, date: { seconds: (sub.date.getTime() / 1000).toFixed(), nanoseconds: 0 } }
+        }
+        return s;
+      })
+      console.log(newSubscriptionsList)
+      setSubscriptions(newSubscriptionsList);
+    } catch(error) {
+      alert(error)
+    }
   };
 
   const deleteSubscription = async (id) => {
@@ -114,7 +118,9 @@ const SubscriptionsList = () => {
   }
   return subscriptions.length > 0 ? (
     <div className='subsList-container'>
-      
+      {/* <Totals
+        subscriptions={subscriptions}
+      /> */}
       <button
         onClick={() => {
           setShow(true);
@@ -130,7 +136,7 @@ const SubscriptionsList = () => {
         saveSubscription={saveSubscription}
       />
       <br />
-      <Table hover>
+      <Table className="content-table" hover>
         <thead>
           <tr>
             <th>Name</th>
@@ -164,43 +170,6 @@ const SubscriptionsList = () => {
       No subscriptions. Add one now to start tracking!
     </h5>
   );
-
-
-  // return (
-  //   <div className='subsList'>
-  //     <header>Subscriptions</header>
-  //     <div className='subsList-container'>
-  //       <button
-  //         onClick={() => {
-  //           setShow(true);
-  //           setEditingSubscription({
-  //             name: "",
-  //             id: "",
-  //           });
-  //         }}
-  //       >
-  //         + Add Subscription
-  //       </button>
-  //       <SubscriptionForm
-  //         show={show}
-  //         handleClose={handleClose}
-  //         editedSubscription={editingSubscription}
-  //         addSubscription={addSubscription}
-  //       />
-  //       {subscriptions.map((subscription) => {
-  //         return (
-  //           <Subscription
-  //             subscription={subscription}
-  //             key={subscription.id}
-  //             updateSubscription={updateSubscription}
-  //             deleteSubscription={deleteSubscription}
-  //             onEditClick={onEditClick}
-  //           />
-  //         );
-  //       })}
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default SubscriptionsList;

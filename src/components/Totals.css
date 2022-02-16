@@ -1,0 +1,30 @@
+:root {
+	--light: #F8F8F8;
+	--dark: #313131;
+	--grey: #888;
+	--primary: #FFCE00;
+	--secondary: #FE4880;
+	--alert: #FF1E2D;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: montserrat, sans-serif;
+}
+
+header {
+	display: flex;
+	justify-content: space-between;
+	padding: 15px;
+}
+
+.totals {
+	color: var(--grey);
+	font-size: 28px;
+	font-weight: 900;
+	background-color: #DFDFDF;
+	padding: 5px 25px;
+	border-radius: 8px;
+}

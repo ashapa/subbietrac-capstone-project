@@ -15,6 +15,7 @@ function App() {
     <>
       <Routes>
         <Route path="/" element={<Login />} />
+        {/* <SubscriptionsList /> */}
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
         <Route exact path="/dashboard" element={<Dashboard />} />

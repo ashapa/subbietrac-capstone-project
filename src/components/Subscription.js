@@ -51,7 +51,7 @@ const Subscription = ({ subscription, onEditClick, deleteSubscription }) => {
   return (
     <tr>
         <td className="name">{subscription.name}</td>
-        <td>Price: ${subscription.price} / {subscription.cycle}</td>
+        <td>${subscription.price} / {subscription.cycle}</td>
         {/* <div>{new Date(subscription.date.seconds * 1000).toLocaleDateString('en-US')}</div> */}
         <td>{nextBill(subscription.cycle, subscription.date)}</td>
         <td className="sub__deleteNedit">

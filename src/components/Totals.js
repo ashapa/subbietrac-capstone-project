@@ -1,4 +1,5 @@
 import Table from "react-bootstrap/table"
+import "./Totals.css"
 
 const Totals = ({ subscriptions }) => {
 
@@ -32,6 +33,10 @@ const Totals = ({ subscriptions }) => {
         <td colSpan="2">Monthly cost: ${monthly.toFixed(2)}</td>
         <td colSpan="2">Yearly cost: ${yearly.toFixed(2)}</td>
       </tr>
+      // <header>
+      //   <div className="totals">Monthly cost: ${monthly.toFixed(2)}</div>
+      //   <div className="totals">Yearly cost: ${yearly.toFixed(2)}</div>
+      // </header>
     )
   );
 };
