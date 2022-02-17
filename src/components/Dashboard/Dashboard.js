@@ -49,7 +49,7 @@ function Dashboard() {
       <div className="hero home">
         <div className="hero__container">
           <h1 className="hero__heading">Welcome <span className="hero-head__span">{name}</span></h1>
-          <p className="hero__description">Click on <span className="hero-des__span">subscriptions</span> to start tracking!</p>
+          <p className="hero__description">Click below to start tracking!</p>
           <button className="main__btn"><Link to='/subscriptions' className='link'>Add Now</Link></button>
         </div>
       </div>
