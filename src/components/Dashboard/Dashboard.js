@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import NavBar from "../NavBar"
 import "./Dashboard.css";
 import { auth, db, logout } from "../../firebase/config";
 import { query, collection, getDocs, where } from "firebase/firestore";
@@ -31,8 +32,9 @@ function Dashboard() {
   }, [user, loading]);
 
   return (
-    <div className="dashboard__container">
-      <div>
+    <div>
+      <NavBar />
+      {/* <div>
         <div>
           Logged in as
         </div>
@@ -42,7 +44,15 @@ function Dashboard() {
         
       <button className="dashboard__btn" onClick={logout}>
         Logout
-      </button>
+      </button> */}
+
+      <div className="hero home">
+        <div className="hero__container">
+          <h1 className="hero__heading">Welcome <span className="hero-head__span">{name}</span></h1>
+          <p className="hero__description">Click on <span className="hero-des__span">subscriptions</span> to start tracking!</p>
+          <button className="main__btn"><Link to='/subscriptions' className='link'>Add Now</Link></button>
+        </div>
+      </div>
     </div>
   );
 }

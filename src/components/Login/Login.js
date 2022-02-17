@@ -15,7 +15,7 @@ function Login() {
       // maybe trigger a loading screen
       return;
     }
-    if (user) navigate("/subscriptions");
+    if (user) navigate("/dashboard");
   }, [user, loading]);
 
   return (

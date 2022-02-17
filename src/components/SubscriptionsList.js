@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import moment from 'moment'
+import moment from 'moment';
+import NavBar from './NavBar'
 import SubscriptionForm from "./SubscriptionForm";
 import Subscription from "./Subscription";
 import './SubscriptionsList.css'
@@ -22,7 +23,7 @@ const emptySubscription = {
   name: '',
   price: '0',
   cycle: "weekly",
-  date: { seconds: new Date().getTime(), milliseconds: 0 }
+  date: { seconds: new Date().getTime() / 1000, milliseconds: 0 }
 }
 const SubscriptionsList = () => {
   const [subscriptions, setSubscriptions] = useState([]);
@@ -39,7 +40,7 @@ const SubscriptionsList = () => {
   };
 
   const saveSubscription = async (sub) => {
-    const toSave = { ...sub, date: moment.utc(sub.date, 'YYYY-MM-DD').toDate() }
+    const toSave = { ...sub, date: moment(sub.date, 'YYYY-MM-DD').toDate() }
     if (sub.id) {
       updateSubscription(toSave)
     } else {
@@ -49,7 +50,7 @@ const SubscriptionsList = () => {
   const addSubscription = async (sub) => {
     const { id, ...rest } = sub
     const newRef = await addDoc(subscriptionsCollectionRef, rest);
-    const subscriptionsData = [...subscriptions, { id: newRef.id, ...sub }];
+    const subscriptionsData = [...subscriptions, { ...sub, id: newRef.id, date: { seconds: (sub.date.getTime() / 1000).toFixed(), nanoseconds: 0 } }];
     setSubscriptions(subscriptionsData)
   };
 
@@ -65,13 +66,15 @@ const SubscriptionsList = () => {
       console.log(sub.date.getTime() / 1000)
       const newSubscriptionsList = subscriptions.map(s => {
         if (s.id === sub.id) {
-          return { ...sub, date: { seconds: (sub.date.getTime() / 1000).toFixed(), nanoseconds: 0 } }
+          const newSub = { ...sub, date: { seconds: (sub.date.getTime() / 1000).toFixed(), nanoseconds: 0 } }
+          console.log(newSub)
+          console.log()
+          return newSub
         }
         return s;
       })
-      console.log(newSubscriptionsList)
       setSubscriptions(newSubscriptionsList);
-    } catch(error) {
+    } catch (error) {
       alert(error)
     }
   };
@@ -117,54 +120,58 @@ const SubscriptionsList = () => {
     return <h5 className="text-center mt-5 mx-2">Loading...</h5>
   }
   return subscriptions.length > 0 ? (
-    <div className='subsList-container'>
-      {/* <Totals
-        subscriptions={subscriptions}
-      /> */}
-      <button
-        onClick={() => {
-          setShow(true);
-          setEditingSubscription(emptySubscription);
-        }}
-      >
-        + Add Subscription
-      </button>
-      <SubscriptionForm
-        show={show}
-        handleClose={handleClose}
-        subscription={editingSubscription}
-        saveSubscription={saveSubscription}
-      />
-      <br />
-      <Table className="content-table" hover>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Next Bill Date</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
+    <div className="subsList">
+      <div><NavBar /></div>
+      <div className='subsList-container'>
+        {/* <Totals
+          subscriptions={subscriptions}
+        /> */}
+        <button
+          onClick={() => {
+            setShow(true);
+            setEditingSubscription(emptySubscription);
+          }}
+        >
+          + Add Subscription
+        </button>
+        <SubscriptionForm
+          show={show}
+          handleClose={handleClose}
+          subscription={editingSubscription}
+          saveSubscription={saveSubscription}
+        />
+        <br />
+        <Table className="content-table" hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Price</th>
+              <th>Start Date</th>
+              <th>Next Bill Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
 
-        <tbody>
-          {subscriptions.map((subscription) => {
-            return (
-              <Subscription
-                subscription={subscription}
-                key={subscription.id}
-                updateSubscription={updateSubscription}
-                deleteSubscription={deleteSubscription}
-                onEditClick={onEditClick}
-              />
-            );
-          })}
+          <tbody>
+            {subscriptions.map((subscription) => {
+              return (
+                <Subscription
+                  subscription={subscription}
+                  key={subscription.id}
+                  updateSubscription={updateSubscription}
+                  deleteSubscription={deleteSubscription}
+                  onEditClick={onEditClick}
+                />
+              );
+            })}
 
-          <Totals 
-            subscriptions={subscriptions}
-          />
-        </tbody>
-      </Table>
-    </div>
+            <Totals
+              subscriptions={subscriptions}
+            />
+          </tbody>
+        </Table>
+      </div>
+    </div>  
   ) : (
     <h5 className="text-center mt-5 mx-2">
       No subscriptions. Add one now to start tracking!

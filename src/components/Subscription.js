@@ -21,26 +21,30 @@ const Subscription = ({ subscription, onEditClick, deleteSubscription }) => {
 
   const nextBill = (cycle, date) => {
     const startDate = moment.unix(date.seconds)
+    const now = moment()
     let nextDate;
 
     if (cycle === "yearly") {
       const diff = moment().diff(date, "years", true);
       nextDate =
         diff > 0
-        ? startDate.add(Math.floor(diff) + 1, "year")
-        : startDate
+          ? startDate.add(Math.floor(diff) + 1, "year")
+          : startDate
     } else if (cycle === "monthly") {
-      const diff = moment().diff(date, "months", true);
-      nextDate =
-        diff > 0
-        ? startDate.add(Math.floor(diff) + 1, "month")
-        : startDate;
+      if (startDate.isBefore(now)) {
+        const diff = now.diff(startDate, "months");
+        nextDate = startDate.add(diff + 1, "month")
+      } else {
+        nextDate = startDate
+      }
     } else {
-      const diff = moment().diff(date, "weeks", true);
-      nextDate =
-        diff > 0
-        ? startDate.add(Math.floor(diff) + 1, "week")
-        : startDate;
+      if (startDate.isBefore(now)) {
+        const diff = now.diff(startDate, "weeks");
+        console.log('diff', diff)
+        nextDate = startDate.add(diff + 1, "weeks")
+      } else {
+        nextDate = startDate
+      }
     }
 
     return nextDate.format("MMM DD, YYYY");
@@ -50,26 +54,26 @@ const Subscription = ({ subscription, onEditClick, deleteSubscription }) => {
 
   return (
     <tr>
-        <td className="name">{subscription.name}</td>
-        <td>${subscription.price} / {subscription.cycle}</td>
-        {/* <div>{new Date(subscription.date.seconds * 1000).toLocaleDateString('en-US')}</div> */}
-        <td>{nextBill(subscription.cycle, subscription.date)}</td>
-        <td className="sub__deleteNedit">
-          
-            <button color="info" className="btn btn-outline-info" >
-              <MdNotificationAdd />
-            </button>
-            <button color="info" className="btn btn-outline-info" onClick={() => onEditClick(subscription)}>
-              <MdEdit />
-            </button>
-            <button
-              className="btn btn-outline-info"
-              onClick={() => deleteSubscription(subscription.id)}
-            >
-              <MdDelete />
-            </button>
-          
-        </td>
+      <td className="name">{subscription.name}</td>
+      <td>${subscription.price} / {subscription.cycle}</td>
+      <td>{moment(subscription.date.seconds * 1000).format("MMM DD, YYYY")}</td>
+      <td>{nextBill(subscription.cycle, subscription.date)}</td>
+      <td className="sub__deleteNedit">
+
+        <button color="info" className="btn btn-outline-info" >
+          <MdNotificationAdd />
+        </button>
+        <button color="info" className="btn btn-outline-info" onClick={() => onEditClick(subscription)}>
+          <MdEdit />
+        </button>
+        <button
+          className="btn btn-outline-info"
+          onClick={() => deleteSubscription(subscription.id)}
+        >
+          <MdDelete />
+        </button>
+
+      </td>
     </tr>
   );
 };

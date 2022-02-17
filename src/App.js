@@ -1,6 +1,5 @@
 import React from "react";
 // import SideNav from "./components/SideNav";
-import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Reset from "./components/Reset";
@@ -19,7 +18,6 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/reset" element={<Reset />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
-        <Route path="/home" element={<Home />} />
         <Route path="/subscriptions" element={<SubscriptionsList />} />
       </Routes>
     </>
